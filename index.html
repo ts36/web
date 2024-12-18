@@ -1,39 +1,129 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>ChatGPT 文字處理工具</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT 聊天模擬器</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .chat-container {
+            background: white;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            color: #333;
+        }
+        .chat-box {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 10px 15px;
+            border-radius: 20px;
+            max-width: 75%;
+            word-wrap: break-word;
+        }
+        .user {
+            background: #007bff;
+            color: white;
+            align-self: flex-end;
+            text-align: right;
+        }
+        .bot {
+            background: #e2e3e5;
+            color: #333;
+            align-self: flex-start;
+            text-align: left;
+        }
+        .input-container {
+            display: flex;
+            margin-top: 10px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 12px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-left: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>ChatGPT 文字處理工具</h1>
-        
-        <div class="mode-buttons">
-            <button onclick="setMode('summarize')">摘要</button>
-            <button onclick="setMode('translate')">翻譯</button>
-            <button onclick="setMode('improve')">優化</button>
-        </div>
-
-        <textarea 
-            id="inputText" 
-            placeholder="請輸入您想處理的文字"
-            rows="6"
-        ></textarea>
-
-        <button 
-            id="processButton" 
-            onclick="processText()"
-        >
-            使用 ChatGPT 處理
-        </button>
-
-        <div id="result" class="result-box">
-            <h3>處理結果：</h3>
-            <p id="resultText"></p>
-        </div>
+<div class="chat-container">
+    <div class="chat-box" id="chat-box"></div>
+    <div class="input-container">
+        <input type="text" id="user-input" placeholder="輸入您的訊息...">
+        <button onclick="sendMessage()">發送</button>
     </div>
+</div>
+<script>
+    function sendMessage() {
+        const input = document.getElementById('user-input');
+        const message = input.value.trim();
+        if (message) {
+            displayMessage(message, 'user');
+            setTimeout(() => {
+                generateBotResponse(message);
+            }, 1000);
+        }
+        input.value = '';
+    }
 
-    <script src="script.js"></script>
+    function displayMessage(text, sender) {
+        const chatBox = document.getElementById('chat-box');
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('message', sender);
+        msgDiv.textContent = text;
+        chatBox.appendChild(msgDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function generateBotResponse(userMessage) {
+        const responses = {
+            "你好": "你好！有什麼我可以幫忙的嗎？",
+            "今天天氣怎麼樣？": "我無法查看即時天氣，但希望今天是個好天氣！",
+            "再見": "再見！祝你有美好的一天！",
+            "你是誰？": "我是 ChatGPT，一個由人工智慧驅動的聊天助手。",
+            "你的功能是什麼？": "我可以回答您的問題，提供資訊，並與您進行有趣的對話。",
+            "告訴我一個笑話": "當幽靈遇到網絡連接問題時，會說什麼？ —— '我無法連上靈魂網路！'",
+            "今天星期幾？": "今天是" + new Date().toLocaleDateString('zh-Hant', { weekday: 'long' }) + "。",
+            "現在幾點？": "現在時間是" + new Date().toLocaleTimeString('zh-Hant') + "。"
+        };
+        const botMessage = responses[userMessage] || "抱歉，我無法理解您的訊息。";
+        displayMessage(botMessage, 'bot');
+    }
+</script>
 </body>
 </html>
