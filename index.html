@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>ChatGPT 文字處理工具</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>ChatGPT 文字處理工具</h1>
+        
+        <div class="mode-buttons">
+            <button onclick="setMode('summarize')">摘要</button>
+            <button onclick="setMode('translate')">翻譯</button>
+            <button onclick="setMode('improve')">優化</button>
+        </div>
+
+        <textarea 
+            id="inputText" 
+            placeholder="請輸入您想處理的文字"
+            rows="6"
+        ></textarea>
+
+        <button 
+            id="processButton" 
+            onclick="processText()"
+        >
+            使用 ChatGPT 處理
+        </button>
+
+        <div id="result" class="result-box">
+            <h3>處理結果：</h3>
+            <p id="resultText"></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
